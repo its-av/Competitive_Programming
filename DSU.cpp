@@ -3,12 +3,12 @@
 using namespace std;
 const int N = 1e6 + 10;
 int parent[N];
-int sizes[N];
+int size[N];
 
 void make(int v)
 {
   parent[v] = v;
-  sizes[v] = 1;
+  size[v] = 1;
 }
 
 int find(int v)
@@ -20,7 +20,7 @@ int find(int v)
   return parent[v] = find(parent[v]);
 }
 
-void unions(int a, int b)
+void Union(int a, int b)
 {
   int pa = find(a);
   int pb = find(b);
@@ -29,7 +29,7 @@ void unions(int a, int b)
     if (sizes[pa] < sizes[pb])
       swap(pa, pb);
     parent[pb] = pa;
-    sizes[pa] += sizes[pb];
+    size[pa] += size[pb];
   }
 }
 
@@ -47,7 +47,7 @@ void solve()
   {
     int a, b;
     cin >> a >> b;
-    unions(a, b);
+    Union(a, b);
   }
   int cnt = 0;
   for (int i = 1; i <= n; i++)
