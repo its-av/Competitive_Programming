@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+const int N = 1e6 + 10;
+int parent[N];
+int sizes[N];
+
+void make(int v)
+{
+  parent[v] = v;
+  sizes[v] = 1;
+}
+
+int find(int v)
+{
+  if (v == parent[v])
+  {
+    return v;
+  }
+  return parent[v] = find(parent[v]);
+}
+
+void unions(int a, int b)
+{
+  int pa = find(a);
+  int pb = find(b);
+  if (pa != pb)
+  {
+    if (sizes[pa] < sizes[pb])
+      swap(pa, pb);
+    parent[pb] = pa;
+    sizes[pa] += sizes[pb];
+  }
+}
+
+void solve()
+{
+  int n;
+  cin >> n;
+  for (int i = 1; i <= n; i++)
+  {
+    make(i);
+  }
+  int k;
+  cin >> k;
+  for (int i = 0; i < k; i++)
+  {
+    int a, b;
+    cin >> a >> b;
+    unions(a, b);
+  }
+  int cnt = 0;
+  for (int i = 1; i <= n; i++)
+  {
+    if (parent[i] == i)
+    {
+      cnt++;
+    }
+  }
+  cout << cnt << "\n";
+}
+
+int32_t main()
+{
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  solve();
+  return 0;
+}
