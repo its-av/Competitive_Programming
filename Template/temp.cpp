@@ -1,32 +1,56 @@
 #include <bits/stdc++.h>
 #define int long long
 using namespace std;
+//e+e e o
+//e+o o e
+//o+o e o
+
 void solve()
 {
-  int n,m;
-  cin>>n>>m;
-  vector<vector<int> > vc(n,vector<int> (m));
-  int n_of_1=0;
-  string s;
+  int n,temp,o=0,e=0;
+  cin>>n;
+  vector<pair<int,int>> v;
   for(int i=0;i<n;i++){
-    cin>>s;
-    for(int j=0;j<m;j++){
-      vc[i][j]=s[j]-'0';
-      n_of_1+=vc[i][j];
+    cin>>temp;
+    if(temp%2==0) e++;
+    else o++;
+    v.push_back({temp,i});
+  }
+  if(o>=3){
+    cout<<"YES\n";
+    int cnt=0;
+    for(int i=0;i<n;i++){
+      if(v[i].first%2!=0){
+        cout<<i+1<<" ";
+        cnt++;
+      }
+      if(cnt==3){
+        cout<<endl;
+        break;
+      }
     }
   }
-  int cnt_1=INT_MAX;
-  int op=0;
-  for(int i=0;i<n-1;i++){
-    for(int j=0;j<m-1;j++){
-      int temp=vc[i][j]+vc[i+1][j]+vc[i][j+1]+vc[i+1][j+1];
-      cnt_1=min(cnt_1,temp);
-      if(cnt_1==0) op=0;
-      else if(cnt_1==1) op=1;
-      else if(cnt_1>=2) op=2;
+  else if(e>=2 && o>=1){
+    cout<<"YES\n";
+    int cnt1=0,cnt2=0;
+    for(int i=0;i<n;i++){
+      if(v[i].first%2!=0 && cnt2<1){
+        cout<<i+1<<" ";cnt2++;
+      }
+      else if(v[i].first%2==0 && cnt1<2){
+        cout<<i+1<<" ";cnt1++;
+      }
+      if(cnt1==2 && cnt2==1){
+        cout<<endl;
+        break;
+      }
     }
   }
-  cout<<n_of_1-cnt_1+op<<endl;
+  else{
+    //cout<<endl;
+    cout<<"NO\n";
+  }
+  
 }
 int32_t main()
 {
